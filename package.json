@@ -1,8 +1,11 @@
 {
   "name": "api-trends",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "this is a simple api to get trends from google trends and generate a blog posts with generative ai",
+  "main": "lib/index.js",
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "scripts": {
     "test": "jest --coverage",
     "build": "tsc",
@@ -19,6 +22,6 @@
     "typescript": "^5.4.5"
   },
   "keywords": [],
-  "author": "",
+  "author": "https://github.com/hazem-a1",
   "license": "ISC"
 }

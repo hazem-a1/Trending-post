@@ -2,8 +2,8 @@ import { GoogleTrendSearch } from "../common/GoogleTrend.interface";
 import { ISO3166Alpha2 } from "../common/countriesIsoCode.type";
 
 interface funcParams {
-  country_iso: ISO3166Alpha2;
-  category: string;
+  country_iso?: ISO3166Alpha2;
+  category?: string;
 }
 
 export async function fetchTrendingSearches({
