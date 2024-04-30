@@ -12,7 +12,8 @@
     "start": "npm run build && node --env-file=.env lib/index.js"
   },
   "dependencies": {
-    "@google/generative-ai": "^0.8.0"
+    "@google/generative-ai": "^0.8.0",
+    "mongodb": "^6.5.0"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",

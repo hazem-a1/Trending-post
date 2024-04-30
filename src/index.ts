@@ -1,16 +1,14 @@
-import fs = require("node:fs");
-
+import { TrendBlogPostDAO } from "./DAO/postDAOs";
 import { TrendBlogPost } from "./common/GoogleTrend.interface";
 
 import { generateBlogPost } from "./gemini/generateBlogPost";
 import { mapRequestToTrend } from "./gemini/mapRequestToTrend";
 import { fetchTrendingSearches } from "./google-trend/fetchTrendingSearches";
 
+const trendingPostDao = new TrendBlogPostDAO();
 
-async function main() {
-  const today = `${Date.now()}`
+export async function app() {
   const TrendingBlogPosts: Array<TrendBlogPost> = [];
-
 
   const trendingFetched = await fetchTrendingSearches({
     country_iso: "US",
@@ -23,13 +21,19 @@ async function main() {
     const blogPost = await generateBlogPost(trend.title);
     TrendingBlogPosts.push({ ...trend, blogPost });
   }
-
-  // write the blog posts to a file named {today's date}
-  fs.writeFileSync(`./data/${today}.json`, JSON.stringify(TrendingBlogPosts, null, 2));
+  // save to db
+  await trendingPostDao.insertMany(TrendingBlogPosts);
 }
 
-try {
-  main();
-} catch (error) {
-  console.error({error});
+function main() {
+ // get post from db
+  // get all posts
+  trendingPostDao.read().then((posts) => {
+    console.log(posts);
+  }).catch((err) => {
+    console.log(err);
+  });
+
 }
+
+main();
