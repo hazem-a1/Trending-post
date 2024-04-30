@@ -1,4 +1,4 @@
-import { Article, GoogleTrendSearch, Trend, TrendingSearch } from "../common/GoogleTrend.interface";
+import { Article, GoogleTrendSearch, Trend, TrendingSearch } from "../../common/GoogleTrend.interface";
 
 
 export function mapRequestToTrend(data: GoogleTrendSearch): Array<Trend> {

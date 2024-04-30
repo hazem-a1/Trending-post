@@ -1,5 +1,5 @@
-import { GoogleTrendSearch } from "../common/GoogleTrend.interface";
-import { ISO3166Alpha2 } from "../common/countriesIsoCode.type";
+import { GoogleTrendSearch } from "../../common/GoogleTrend.interface";
+import { ISO3166Alpha2 } from "../../common/countriesIsoCode.type";
 
 interface funcParams {
   country_iso?: ISO3166Alpha2;

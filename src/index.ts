@@ -1,9 +1,9 @@
 import { TrendBlogPostDAO } from "./DAO/postDAOs";
 import { TrendBlogPost } from "./common/GoogleTrend.interface";
 
-import { generateBlogPost } from "./gemini/generateBlogPost";
-import { mapRequestToTrend } from "./gemini/mapRequestToTrend";
-import { fetchTrendingSearches } from "./google-trend/fetchTrendingSearches";
+import { generateBlogPost } from "./services/gemini/generateBlogPost";
+import { mapRequestToTrend } from "./services/gemini/mapRequestToTrend";
+import { fetchTrendingSearches } from "./services/google-trend/fetchTrendingSearches";
 
 const trendingPostDao = new TrendBlogPostDAO();
 
