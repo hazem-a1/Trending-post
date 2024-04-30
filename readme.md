@@ -6,6 +6,7 @@
 
 ## TODO
 - [x] add blog posts to mongo db and remove file system.
+- [ ] docker.
 - [ ] generate a slug for the blog posts.
 - [ ] run jobs in deferent regions.
 - [ ] choose a lite category not Politics 😂😂.

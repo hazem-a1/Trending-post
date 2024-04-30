@@ -1,6 +1,5 @@
 import { Collection, Filter, OptionalUnlessRequiredId, BSON } from 'mongodb';
 import { ClientProvider } from '../db/ClientProvider';
-import { DB_NAME } from '../constant/db-name';
 
 export abstract class MongoDbCollection<T extends BSON.Document> {
   protected collection: Collection<T>;
@@ -8,7 +7,7 @@ export abstract class MongoDbCollection<T extends BSON.Document> {
   constructor(protected collectionName: string) {
     const client = ClientProvider.getClient();
 
-    this.collection = client.db(DB_NAME).collection<T>(collectionName);
+    this.collection = client.db().collection<T>(collectionName);
   }
  
   async create(document: OptionalUnlessRequiredId<T>) {

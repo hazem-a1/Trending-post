@@ -8,7 +8,7 @@ export class ClientProvider {
 
   static getClient() {
     if (!this.client) {
-      this.client = new MongoClient(process.env.MONGO_URI || 'mongodb://localhost:27017',
+      this.client = new MongoClient(process.env.MONGO_URI || 'mongodb://localhost:27017/trending-blog-posts',
         {
           maxPoolSize: 50,
           writeConcern: { w: 'majority', wtimeout: 2500 },

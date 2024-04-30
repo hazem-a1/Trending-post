@@ -1,39 +1,37 @@
-import { TrendBlogPostDAO } from "./DAO/postDAOs";
-import { TrendBlogPost } from "./common/GoogleTrend.interface";
+import express = require('express');
+import morgan = require('morgan');
+import cors = require('cors');
 
-import { generateBlogPost } from "./services/gemini/generateBlogPost";
-import { mapRequestToTrend } from "./services/gemini/mapRequestToTrend";
-import { fetchTrendingSearches } from "./services/google-trend/fetchTrendingSearches";
+import { ClientProvider } from './db/ClientProvider';
+import postRouter from './routers/post.router';
 
-const trendingPostDao = new TrendBlogPostDAO();
+const app = express();
+const port = 3000;
 
-export async function app() {
-  const TrendingBlogPosts: Array<TrendBlogPost> = [];
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(morgan('dev'));
+app.use(cors())
 
-  const trendingFetched = await fetchTrendingSearches({
-    country_iso: "US",
-    category: "all",
-  });
+app.use('/posts', postRouter);
 
-  const trending = mapRequestToTrend(trendingFetched);
 
-  for await (const trend of trending) {
-    const blogPost = await generateBlogPost(trend.title);
-    TrendingBlogPosts.push({ ...trend, blogPost });
-  }
-  // save to db
-  await trendingPostDao.insertMany(TrendingBlogPosts);
-}
+app.listen(port, () => {
+  console.log(`Server is running at http://localhost:${port}`);
+});
 
-function main() {
- // get post from db
-  // get all posts
-  trendingPostDao.read().then((posts) => {
-    console.log(posts);
-  }).catch((err) => {
-    console.log(err);
-  });
+app.on("error", async (err) => {
+  console.log("Error: ", err);
+  await ClientProvider.getClient().close();
+  process.exit(1);
+});
 
-}
+app.on("close", async () => {
+  await ClientProvider.getClient().close();
+  process.exit(0);
+});
 
-main();
+app.on("finish", async () => {
+  await ClientProvider.getClient().close();
+  process.exit(0);
+});
