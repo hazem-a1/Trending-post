@@ -2,8 +2,6 @@ import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from "@google/ge
 
 export const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GENERATIVE_API_KEY as string);
  
-// this fancy code block is just a way to create an array of objects with the HarmCategory as the key and the HarmBlockThreshold as the value 😎
-  
 const safetySettings = [
    {
       category: HarmCategory.HARM_CATEGORY_HARASSMENT,

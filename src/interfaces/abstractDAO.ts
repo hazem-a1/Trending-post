@@ -1,4 +1,4 @@
-import { Collection, Filter, OptionalUnlessRequiredId, BSON } from 'mongodb';
+import { Collection, Filter, OptionalUnlessRequiredId, BSON, FindOptions } from 'mongodb';
 import { ClientProvider } from '../db/ClientProvider';
 
 export abstract class MongoDbCollection<T extends BSON.Document> {
@@ -15,8 +15,16 @@ export abstract class MongoDbCollection<T extends BSON.Document> {
     return result;
   }
 
-  read(filter: Filter<T> = {}) {
-    return this.collection.find(filter).toArray();
+  read(filter: Filter<T> = {}, options: FindOptions<T> = {}) {
+    return this.collection.find(filter, options).toArray();
+  }
+
+  async count(filter: Filter<T> = {}) {
+    return this.collection.countDocuments(filter); 
+  }
+
+  findOne(filter: Filter<T>) {
+    return this.collection.findOne(filter);
   }
 
   async update(filter: Filter<T>, update: Partial<T>) {
@@ -30,5 +38,9 @@ export abstract class MongoDbCollection<T extends BSON.Document> {
 
   insertMany(documents: OptionalUnlessRequiredId<T>[]) {
     return this.collection.insertMany(documents);
+  }
+
+  bulkWrite(requests: any[]) {
+    return this.collection.bulkWrite(requests);
   }
 }

@@ -36,4 +36,7 @@ export interface Trend {
 
 export interface TrendBlogPost extends Trend {
     blogPost: string;
+    published: boolean;
+    country_iso: string;
+    lastupdated: number;
 }
