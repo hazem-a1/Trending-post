@@ -4,6 +4,10 @@
 - make use of Stream API.
 - use functional programming.
 
+## progress so far 🤓🤓
+ - deployed the app to koyeb.
+ - run daily authorized jobs to generate blog posts.
+
 ## TODO
 - [x] add blog posts to mongo db and remove file system.
 - [ ] docker.
