@@ -9,7 +9,8 @@
   "scripts": {
     "test": "jest --coverage",
     "build": "tsc",
-    "start": "npm run build && node --env-file=.env lib/index.js",
+    "start:dev": "npm run build && node --env-file=.env lib/index.js",
+    "start": "npm run build && node lib/index.js",
     "dev": "nodemon --exec node -r ts-node/register --env-file=.env src/index.ts  --watch src"
   },
   "dependencies": {
