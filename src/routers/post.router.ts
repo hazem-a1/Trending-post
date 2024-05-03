@@ -4,7 +4,7 @@ import { generateBlogPost } from '../services/gemini/generateBlogPost';
 import { mapRequestToTrend } from '../services/gemini/mapRequestToTrend';
 import { fetchTrendingSearches } from '../services/google-trend/fetchTrendingSearches';
 import { TrendBlogPost } from '../common/GoogleTrend.interface';
-import { Sort } from 'mongodb';
+import { ObjectId, Sort } from 'mongodb';
 import { ISO3166Alpha2 } from '../common/countriesIsoCode.type';
 
 const router = express.Router();
@@ -120,7 +120,11 @@ router.get('/generate', async (req: express.Request, res: express.Response) => {
 // GET a specific blog post
 router.get('/:id', async (req: express.Request, res: express.Response) => {
     try {
-    const post = await blogPostDAO.read({ id: req.params.id });
+    const post = await blogPostDAO.findOne({ _id: new ObjectId(req.params.id) });
+    if (!post) {
+        res.status(404).json({ message: "Not found" });
+        return;
+    }
     res.json(post);
     } catch (error) {
         console.log(error);
