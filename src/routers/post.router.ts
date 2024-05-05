@@ -32,34 +32,6 @@ router.get('/', async (req: express.Request, res: express.Response) => {
     }
 });
 
-// router.get('/migrate', async (req: express.Request, res: express.Response) => {
-
-//     const cursor = await blogPostDAO.read()
-
-//     const toMigrate = cursor.map(({ _id }) => ({
-//         updateOne: {
-//             filter: { _id: new ObjectId(_id) },
-//             update: {
-//                 $set: {
-//                     lastupdated: Date.now(),
-//                     published: false,
-//                     country_iso: "US",
-
-//                 },
-//             },
-//         },
-//     }))
-//     console.log(
-//         "\x1b[32m",
-//         `Found ${toMigrate.length} documents to update`,
-//     )
-//     const { modifiedCount } = await blogPostDAO
-//         .bulkWrite(toMigrate)
-
-//     console.log("\x1b[32m", `${modifiedCount} documents updated`)
-//     res.json({ message: "Migration completed" });
-// });
-
 // TODO: 1- optimize performance by using a queue to generate blog posts
 // this will not work on serverless environments like AWS lambda
 // 2- add a cron job to generate blog posts every 24 hours this will help to keep the blog posts up to date using uptime robot.
@@ -131,23 +103,6 @@ router.get('/:id', async (req: express.Request, res: express.Response) => {
         res.status(500).json({message: "Internal server error"});
     }
 });
-
-
-// PUT update a blog post
-// router.put('/:id', async (req: express.Request, res: express.Response) => {
-//     const updatedPost = await blogPostDAO.update({ id: req.params.id }, req.body);
-//     res.json(updatedPost);
-// });
-
-// // DELETE a blog post
-// router.delete('/:id', async (req: express.Request, res: express.Response) => {
-//     const deletedPost = await blogPostDAO.delete({ id: req.params.id });
-//     res.json(deletedPost);
-// });
-
-
-
-
 
 
 export default router;
