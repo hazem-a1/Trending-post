@@ -32,6 +32,27 @@ router.get('/', async (req: express.Request, res: express.Response) => {
     }
 });
 
+// Get /search?text=keyword
+router.get('/search', async (req: express.Request, res: express.Response) => {
+    try {
+    const page = parseInt(req.query.page as string) || 1;
+    const size = parseInt(req.query.size as string) || 10;
+    const sort = req.query.sort as string || 'date';
+    const order = req.query.order as string || 'desc';
+    const filter = req.query.filter as string || '{}';
+
+    const skip = (page - 1) * size;
+    const sortObj: Sort = { [sort]: order === 'desc' ? -1 : 1 };
+    const filterObj = JSON.parse(filter);
+    const text = req.query.text as string || '';
+    const posts = await blogPostDAO.search(text, filterObj, { skip, limit: size, sort: sortObj });
+    res.json({ posts, page, size });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({message: "Internal server error"});
+    }
+});
+
 // TODO: 1- optimize performance by using a queue to generate blog posts
 // this will not work on serverless environments like AWS lambda
 // 2- add a cron job to generate blog posts every 24 hours this will help to keep the blog posts up to date using uptime robot.

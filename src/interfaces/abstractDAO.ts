@@ -15,15 +15,20 @@ export abstract class MongoDbCollection<T extends BSON.Document> {
     return result;
   }
 
-  read(filter: Filter<T> = {}, options: FindOptions<T> = {}) {
+  async read(filter: Filter<T> = {}, options: FindOptions<T> = {}) {
     return this.collection.find(filter, options).toArray();
+  }
+
+  // Search for text in the collection that has a text index
+  async search(text: string, filter: Filter<T> = {}, options: FindOptions<T> = {}) {
+    return this.collection.find({ $text: { $search: text }, ...filter }, options).toArray();
   }
 
   async count(filter: Filter<T> = {}) {
     return this.collection.countDocuments(filter); 
   }
 
-  findOne(filter: Filter<T>) {
+  async findOne(filter: Filter<T>) {
     return this.collection.findOne(filter);
   }
 
@@ -32,15 +37,15 @@ export abstract class MongoDbCollection<T extends BSON.Document> {
     return result.modifiedCount;
   }
 
-  delete(filter: Filter<T>) {
+  async delete(filter: Filter<T>) {
     return this.collection.deleteMany(filter);
   }
 
-  insertMany(documents: OptionalUnlessRequiredId<T>[]) {
+  async insertMany(documents: OptionalUnlessRequiredId<T>[]) {
     return this.collection.insertMany(documents);
   }
 
-  bulkWrite(requests: any[]) {
+  async bulkWrite(requests: any[]) {
     return this.collection.bulkWrite(requests);
   }
 }
