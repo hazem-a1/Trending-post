@@ -22,7 +22,7 @@ const safetySettings = [
 ];
 
 export async function generateBlogPost(blogTitle: string): Promise<string> {
-  const model = genAI.getGenerativeModel({ model: "gemini-pro" ,
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" ,
   safetySettings
 });
 
